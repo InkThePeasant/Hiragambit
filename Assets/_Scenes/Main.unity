@@ -192,7 +192,7 @@ GameObject:
   - component: {fileID: 334794689}
   - component: {fileID: 334794688}
   m_Layer: 5
-  m_Name: timeText
+  m_Name: testText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

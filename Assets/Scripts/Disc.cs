@@ -6,84 +6,59 @@ using UnityEngine.UI;
 public class Disc : MonoBehaviour
 {
 
-    public float minimum = 0.0f;
-    public float maximum = 1f;
-    public float duration = 1f;
-    public float fadeOutTime = 6f;
-    public float fadeSpeed = 1f;
-    private float startTime;
+    public float fadeOutTime = 10f;
+
     public SpriteRenderer sprite;
 
-    private Text timeText;
-    private bool fadeOut = false;
+    private Text testText;
 
     // Use this for initialization
+    //Calls fade in and fade out coroutines, with delay on the fade out until designated time
     void Start()
     {
-        startTime = Time.time;
-        sprite = GetComponent<SpriteRenderer>();
-        //sprite.color = new Color(1f, 1f, 1f, 0f);
+        sprite = GetComponent<SpriteRenderer>();        
 
-
-        timeText = GameObject.Find("timeText").GetComponent<Text>();
+        testText = GameObject.Find("testText").GetComponent<Text>();
+        StartCoroutine(FadeIn());   //
+        Debug.Log("Finished FadeIn");
+        StartCoroutine(FadeOut(fadeOutTime));
     }
 
     // Update is called once per frame
     void Update()
     {
-        //float t;
-
-
-        if (Time.time >= 5)
-        {
-            fadeOut = true;
-        }
-
-        //if (!fadeOut)
-        //{
-        //    t = Mathf.SmoothStep(minimum, maximum, Time.time / duration);
-        //    sprite.color = new Color(1f, 1f, 1f, t);
-        //}
-        //else
-        //{
-        //    timeText.text = "Should be fading";
-        //    FadeOut();
-        //}
-
-        if (!fadeOut)
-        {
-            StartCoroutine("FadeIn");
-        }
-        else
-        {
-            StartCoroutine("FadeOut");
-        }
-
-
-        //timeText.text = "Time: " + Time.time;
+        testText.text = "Time: " + Time.time;
 
     }
 
+    //Coroutine fades in GameObject by steadily increasing sprites alpha
     IEnumerator FadeIn()
     {
         Debug.Log("in FadeIn");
 
-        for(float f = 0f; f <= 1f; f += .01f)
+        for(double f = 0; f <= 1; f += .01)
         {
-            sprite.color = new Color(1f, 1f, 1f, f);
+            testText.text = "fade at: " + f;
+            sprite.color = new Color(1f, 1f, 1f, (float)f);
             yield return null;
         }
     }
 
-    IEnumerator FadeOut()
+    //Coroutine fades in GameObject by steadily decreasing sprites alpha
+    IEnumerator FadeOut(float delay)
     {
-        Debug.Log("in FadeIn");
+        if (delay != 0)
+            yield return new WaitForSeconds(delay);
+
+        Debug.Log("in FadeOut");
 
         for (float f = 1f; f >= 0f; f -= .01f)
         {
+            testText.text = "fade at: " + f;
             sprite.color = new Color(1f, 1f, 1f, f);
             yield return null;
         }
+
     }
 
 
