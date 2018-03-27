@@ -1,0 +1,16 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!221 &22100000
+AnimatorOverrideController:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_Name: PurpleDisc
+  m_Controller: {fileID: 9100000, guid: 12a43949e6c90dd4aa3a86060e8b8673, type: 2}
+  m_Clips:
+  - m_OriginalClip: {fileID: 7400000, guid: f1e257155af3e2a459d32a5e370b6d81, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 650f98f75ccd84143aeca035b68d28e1, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: da13db60c15f7304795f357cf3fb975a, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 599797462b296b84fa9e05a62fdf636e, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: b33087ac3b6b64c49950713c8ec9ffe5, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: cdd857e4e553d2344a444c389250c583, type: 2}

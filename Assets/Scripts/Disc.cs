@@ -8,7 +8,8 @@ public class Disc : MonoBehaviour
 
     public float fadeOutTime = 10f;
 
-    public SpriteRenderer sprite;
+    private SpriteRenderer sprite;
+    private Animator animator; 
 
     private Text testText;
 
@@ -16,29 +17,33 @@ public class Disc : MonoBehaviour
     //Calls fade in and fade out coroutines, with delay on the fade out until designated time
     void Start()
     {
-        sprite = GetComponent<SpriteRenderer>();        
+        sprite = GetComponent<SpriteRenderer>();
+        animator = GetComponent<Animator>();
 
-        testText = GameObject.Find("testText").GetComponent<Text>();
         StartCoroutine(FadeIn());   //
-        Debug.Log("Finished FadeIn");
         StartCoroutine(FadeOut(fadeOutTime));
     }
 
     // Update is called once per frame
     void Update()
     {
-        testText.text = "Time: " + Time.time;
+        
+    }
 
+    //Method that runs when user clicks within Disc's CircleCollider2D
+    void OnMouseDown()
+    {
+        Debug.Log("clicked");
+        animator.SetTrigger("discBreak");
     }
 
     //Coroutine fades in GameObject by steadily increasing sprites alpha
     IEnumerator FadeIn()
     {
-        Debug.Log("in FadeIn");
+        
 
         for(double f = 0; f <= 1; f += .01)
-        {
-            testText.text = "fade at: " + f;
+        {            
             sprite.color = new Color(1f, 1f, 1f, (float)f);
             yield return null;
         }
@@ -50,11 +55,8 @@ public class Disc : MonoBehaviour
         if (delay != 0)
             yield return new WaitForSeconds(delay);
 
-        Debug.Log("in FadeOut");
-
         for (float f = 1f; f >= 0f; f -= .01f)
         {
-            testText.text = "fade at: " + f;
             sprite.color = new Color(1f, 1f, 1f, f);
             yield return null;
         }
