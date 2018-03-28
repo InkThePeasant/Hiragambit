@@ -3,10 +3,17 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+/*******************
+ * 
+ * Class controlling behavior and functionality of the game's Gambit Discs.
+ * All 3 discs utilize this class
+ * 
+ *******************/
+
 public class Disc : MonoBehaviour
 {
 
-    public float fadeOutTime = 10f;
+    public float fadeOutTime = 10f; //Total time disc remains on screen before fading out
 
     private SpriteRenderer sprite;
     private Animator animator; 
@@ -20,8 +27,9 @@ public class Disc : MonoBehaviour
         sprite = GetComponent<SpriteRenderer>();
         animator = GetComponent<Animator>();
 
-        StartCoroutine(FadeIn());   //
-        StartCoroutine(FadeOut(fadeOutTime));
+        StartCoroutine(FadeIn());   //Fades object in as it is initialized
+        StartCoroutine(IncreaseSize());   //Increases size of the disc over the course of its life
+        StartCoroutine(FadeOut(fadeOutTime));   //Fades object out after set delay
     }
 
     // Update is called once per frame
@@ -39,12 +47,20 @@ public class Disc : MonoBehaviour
 
     //Coroutine fades in GameObject by steadily increasing sprites alpha
     IEnumerator FadeIn()
-    {
-        
-
+    {        
         for(double f = 0; f <= 1; f += .01)
         {            
             sprite.color = new Color(1f, 1f, 1f, (float)f);
+            yield return null;
+        }
+    }
+
+    //Slowly increases the size of the disc
+    IEnumerator IncreaseSize()
+    {
+        for (float f = 1; f <= 1.5f; f += 0.001f)
+        {
+            transform.localScale = new Vector3(f, f);
             yield return null;
         }
     }
@@ -61,6 +77,7 @@ public class Disc : MonoBehaviour
             yield return null;
         }
 
+        Destroy(gameObject);
     }
 
 

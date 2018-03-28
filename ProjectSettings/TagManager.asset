@@ -6,6 +6,7 @@ TagManager:
   tags:
   - UI
   - Discs
+  - Game Manager
   layers:
   - Default
   - TransparentFX

@@ -35,8 +35,6 @@ public class SpriteText : MonoBehaviour {
 
     IEnumerator FadeIn()
     {
-        Debug.Log("in FadeIn");
-
         for (double f = 0; f <= 1; f += .01)
         {
            
@@ -50,8 +48,6 @@ public class SpriteText : MonoBehaviour {
     {
         if (delay != 0)
             yield return new WaitForSeconds(delay);
-
-        Debug.Log("in FadeOut");
 
         for (float f = 1f; f >= 0f; f -= .01f)
         {
