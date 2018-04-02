@@ -12,6 +12,8 @@ public class GameManager : MonoBehaviour {
     public GameObject purpleDisc;
     private float discSpawnDelay = 5f;
 
+    
+
 
     //Initializing GameManager
     void Awake()
