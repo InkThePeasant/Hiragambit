@@ -1,6 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+
+using System.Linq;
+
 using UnityEngine;
+
+/*
+ * Handles finding and displaying text on Gambit Disc sprites
+ */
 
 public class SpriteText : MonoBehaviour {
     public float fadeOutTime = 10f;
@@ -19,7 +26,7 @@ public class SpriteText : MonoBehaviour {
         var spriteTransform = parent.transform;
         var text = GetComponent<TextMesh>();
         var pos = spriteTransform.position;
-        text.text = string.Format("る", pos.x, pos.y);
+        text.text = string.Format(getDiscText(), pos.x, pos.y);
 
         mesh = GetComponent<MeshRenderer>();
 
@@ -32,6 +39,12 @@ public class SpriteText : MonoBehaviour {
 	void Update () {
 		
 	}
+
+    private string getDiscText()
+    {
+        return GameManager.instance.kana.ElementAt(Random.Range(0, GameManager.instance.kana.Count)).Value;
+    }
+
 
     IEnumerator FadeIn()
     {

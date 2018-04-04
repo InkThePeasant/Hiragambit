@@ -5,7 +5,12 @@ licenseType: Free
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - maroonDisc: {fileID: 1913904121071022, guid: 76536495f70ebe34d9ef2ab83499d409,
+      type: 2}
+  - tealDisc: {fileID: 1777907456448690, guid: 9ed3793e0724df14a9bbd97691af450b, type: 2}
+  - purpleDisc: {fileID: 1105013893619212, guid: 118be80cfb8f2e24facb90acd4cc8771,
+      type: 2}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

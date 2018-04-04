@@ -1,5 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+
+using System.IO;
+using System.Linq;
+using System.Text;
+
 using UnityEngine;
 
 public class GameManager : MonoBehaviour {
@@ -12,7 +17,7 @@ public class GameManager : MonoBehaviour {
     public GameObject purpleDisc;
     private float discSpawnDelay = 5f;
 
-    
+    public Dictionary<string, string> kana;
 
 
     //Initializing GameManager
@@ -27,6 +32,9 @@ public class GameManager : MonoBehaviour {
     // Use this for initialization
     void Start ()
     {
+        //Load all kana from text file in Assets folder
+        LoadKana();
+
         InvokeRepeating("SpawnDiscs", 3f, discSpawnDelay);
 	}
 	
@@ -34,6 +42,24 @@ public class GameManager : MonoBehaviour {
 	void Update () {
 		
 	}
+
+    private void LoadKana()
+    {
+        TextAsset textFile = Resources.Load("KanaText/ENGtoHiragana") as TextAsset;
+        string[] array = textFile.text.Split('\n');
+
+        //Groups lines into key-value pairs
+        kana = array
+                .Select((v, i) => new { Index = i, Value = v })
+                .GroupBy(p => p.Index / 2)
+                .ToDictionary(g => g.First().Value, g => g.Last().Value);
+
+        foreach (var i in kana)
+        {
+            Debug.Log("" + i.Key + " - " + i.Value);
+        }
+
+    }
 
     void SpawnDiscs()
     {
