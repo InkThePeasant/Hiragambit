@@ -42,10 +42,19 @@ public class SpriteText : MonoBehaviour {
 
     private string getDiscText()
     {
-        return GameManager.instance.kana.ElementAt(Random.Range(0, GameManager.instance.kana.Count)).Value;
+        //Getting location of current, correct kana user looks for
+        var currentKana = GameManager.instance.gameTextKey;
+        //Gets dictionary from GameManager, starting 3 elements back from the correct kana
+        //This is so text display on discs is within range of the correct kana on a hiragana chart
+        var kanaRange = GameManager.instance.kana.Skip(currentKana - 3);
+
+        int kanaToChoose = Random.Range(0, 5);  //Finds kana within 5 placements of the current correct one
+
+        //Returns a range of 5 elements from already trimmed Dictionary, selecting a random one from within that range
+        return kanaRange.Take(5).ElementAt(kanaToChoose).Value;        
     }
 
-
+    //Coroutine fades in GameObject by steadily increasing sprite's alpha
     IEnumerator FadeIn()
     {
         for (double f = 0; f <= 1; f += .01)
@@ -56,7 +65,7 @@ public class SpriteText : MonoBehaviour {
         }
     }
 
-    //Coroutine fades in GameObject by steadily decreasing sprites alpha
+    //Coroutine fades out GameObject by steadily decreasing sprite's alpha
     IEnumerator FadeOut(float delay)
     {
         if (delay != 0)
