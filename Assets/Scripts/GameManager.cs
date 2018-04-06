@@ -15,6 +15,8 @@ public class GameManager : MonoBehaviour {
     private Text gameText;  //UI element displaying the Game Text - center text showing which symbol players should look for
     public int gameTextKey; //The location of the current key being displayed in Game Text UI element
 
+    private Text timeText;
+
     //Disc prefabs to spawn intermitently
     public GameObject maroonDisc;
     public GameObject tealDisc;
@@ -37,6 +39,7 @@ public class GameManager : MonoBehaviour {
     void Start ()
     {
         gameText = GameObject.Find("GameText").GetComponent<Text>();
+        timeText = GameObject.Find("Time").GetComponent<Text>();
 
         //Load all kana from text file in Assets folder
         LoadKana();
@@ -45,6 +48,8 @@ public class GameManager : MonoBehaviour {
 
         //Gets intial starting kana players must search for
         PopulateGameText();
+
+        StartCoroutine(ClockManager(99));
 	}
 	
 	// Update is called once per frame
@@ -85,5 +90,15 @@ public class GameManager : MonoBehaviour {
         float discY = Random.Range(-3.8f, 1);   //Y-Coordinates on screen discs can spawn between
 
         Instantiate(discs[discToSpawn], new Vector3(discX, discY, 1), Quaternion.identity);
+    }
+
+    //Method decrements time remaining in game
+    private IEnumerator ClockManager(int time)
+    {
+        for(int i = time; i >= 0; i--)
+        {
+            timeText.text = "Time: " + i;
+            yield return new WaitForSeconds(1f);
+        }
     }
 }

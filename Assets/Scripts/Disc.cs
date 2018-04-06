@@ -16,9 +16,9 @@ public class Disc : MonoBehaviour
     public float fadeOutTime = 10f; //Total time disc remains on screen before fading out
 
     private SpriteRenderer sprite;
-    private Animator animator; 
+    private Animator animator;
 
-    private Text testText;
+    private int health = 2; //Variable controlling remaining health of disc. New discs can take two hits.
 
     // Use this for initialization
     //Calls fade in and fade out coroutines, with delay on the fade out until designated time
@@ -41,8 +41,18 @@ public class Disc : MonoBehaviour
     //Method that runs when user clicks within Disc's CircleCollider2D
     void OnMouseDown()
     {
-        Debug.Log("clicked");
-        animator.SetTrigger("discBreak");
+        health--;
+
+        if(health == 0)
+        {
+            animator.SetTrigger("discDestroy");
+            
+            //Destroy(gameObject);
+        }
+        else
+        {
+            animator.SetTrigger("discBreak");
+        }
     }
 
     //Coroutine fades in GameObject by steadily increasing sprites alpha
@@ -80,5 +90,9 @@ public class Disc : MonoBehaviour
         Destroy(gameObject);
     }
 
+    private void DestroyDisc()
+    {
+        Destroy(gameObject);
+    }
 
 }
