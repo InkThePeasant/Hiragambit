@@ -51,7 +51,7 @@ public class SpriteText : MonoBehaviour {
         int kanaToChoose = Random.Range(0, 5);  //Finds kana within 5 placements of the current correct one
 
         //Returns a range of 5 elements from already trimmed Dictionary, selecting a random one from within that range
-        return kanaRange.Take(5).ElementAt(kanaToChoose).Value;        
+        return kanaRange.Take(5).ElementAt(kanaToChoose).Value;
     }
 
     //Coroutine fades in GameObject by steadily increasing sprite's alpha

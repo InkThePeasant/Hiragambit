@@ -16,6 +16,8 @@ public class GameManager : MonoBehaviour {
     public int gameTextKey; //The location of the current key being displayed in Game Text UI element
 
     private Text timeText;
+    private Text scoreText;
+    private Slider healthSlider;
 
     //Disc prefabs to spawn intermitently
     public GameObject maroonDisc;
@@ -24,6 +26,7 @@ public class GameManager : MonoBehaviour {
     private float discSpawnDelay = 5f;  //delay between repeated disc spawns
 
     public Dictionary<string, string> kana; //DS storing KvP of kana and romaji pairings
+    private int currentScore = 0;   //Score during the game, initialized at 0
 
 
     //Initializing GameManager
@@ -39,7 +42,10 @@ public class GameManager : MonoBehaviour {
     void Start ()
     {
         gameText = GameObject.Find("GameText").GetComponent<Text>();
-        timeText = GameObject.Find("Time").GetComponent<Text>();
+        timeText = GameObject.Find("TimeText").GetComponent<Text>();
+        scoreText = GameObject.Find("ScoreText").GetComponent<Text>();
+        healthSlider = GameObject.Find("Health Slider").GetComponent<Slider>();
+        Debug.Log(healthSlider.value);
 
         //Load all kana from text file in Assets folder
         LoadKana();
@@ -49,7 +55,7 @@ public class GameManager : MonoBehaviour {
         //Gets intial starting kana players must search for
         PopulateGameText();
 
-        StartCoroutine(ClockManager(99));
+        StartCoroutine(TimeManager(99));
 	}
 	
 	// Update is called once per frame
@@ -93,12 +99,43 @@ public class GameManager : MonoBehaviour {
     }
 
     //Method decrements time remaining in game
-    private IEnumerator ClockManager(int time)
+    private IEnumerator TimeManager(int startTime)
     {
-        for(int i = time; i >= 0; i--)
+        for(int i = startTime; i >= 0; i--)
         {
             timeText.text = "Time: " + i;
             yield return new WaitForSeconds(1f);
         }
     }
+
+    //Adds parameter value to currentScore, and changes the ScoreText UI element to reflect current score
+    private void ScoreManager(int scoreChange)
+    {
+        currentScore += scoreChange;
+
+        scoreText.text = "Score: " + currentScore;
+    }
+
+    private void HealthManager(float healthChange)
+    {
+        healthSlider.value += healthChange;
+        Debug.Log(healthSlider.value);
+    }
+
+    public void CheckDestroyedDisc(string discText)
+    {
+        if(kana[gameText.text] == discText)
+        {
+            Debug.Log("you good");
+            ScoreManager(1000);
+            PopulateGameText();
+        }
+        else
+        {
+            Debug.Log("you bad");
+            HealthManager(-10f);
+        }
+           
+    }
+
 }

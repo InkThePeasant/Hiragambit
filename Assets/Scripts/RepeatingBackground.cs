@@ -13,7 +13,6 @@ public class RepeatingBackground : MonoBehaviour {
         rect = GetComponent<RectTransform>();
         bgCollider = GetComponent<BoxCollider2D>();
         bgHorizontalLength = bgCollider.size.x;
-        Debug.Log("Length = " + bgHorizontalLength);
 	}
 	
 	// Update is called once per frame
@@ -21,7 +20,6 @@ public class RepeatingBackground : MonoBehaviour {
     {
         if (rect.anchoredPosition.x < -bgHorizontalLength)
         {
-            Debug.Log("Should jump now");
             RepositionBG();
         }
 	}

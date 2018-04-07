@@ -46,8 +46,10 @@ public class Disc : MonoBehaviour
         if(health == 0)
         {
             animator.SetTrigger("discDestroy");
-            
-            //Destroy(gameObject);
+
+            var childText = GetComponentInChildren<TextMesh>(); //Getting the text on the disc as it is a child component
+
+            GameManager.instance.CheckDestroyedDisc(childText.text);
         }
         else
         {
@@ -90,6 +92,8 @@ public class Disc : MonoBehaviour
         Destroy(gameObject);
     }
 
+    //Destroys the game object when called
+    //Used in animation events to destroy disc after animation has played
     private void DestroyDisc()
     {
         Destroy(gameObject);
