@@ -11,9 +11,9 @@ using UnityEngine.UI;
 public class GameManager : MonoBehaviour {
 
     public static GameManager instance = null;
-
+    
     private Text gameText;  //UI element displaying the Game Text - center text showing which symbol players should look for
-    public int gameTextKey; //The location of the current key being displayed in Game Text UI element
+    [HideInInspector]public int gameTextKey; //The location of the current key being displayed in Game Text UI element
 
     private Text timeText;
     private Text scoreText;
@@ -23,7 +23,7 @@ public class GameManager : MonoBehaviour {
     public GameObject maroonDisc;
     public GameObject tealDisc;
     public GameObject purpleDisc;
-    private float discSpawnDelay = 5f;  //delay between repeated disc spawns
+    private float discSpawnDelay = 3f;  //delay between repeated disc spawns
 
     public Dictionary<string, string> kana; //DS storing KvP of kana and romaji pairings
     private int currentScore = 0;   //Score during the game, initialized at 0
@@ -35,17 +35,16 @@ public class GameManager : MonoBehaviour {
         if (instance == null)
             instance = this;
         else if (instance != this)
-            Destroy(gameObject);
+            Destroy(gameObject);        
     }
 
     // Use this for initialization
     void Start ()
-    {
+    {       
         gameText = GameObject.Find("GameText").GetComponent<Text>();
         timeText = GameObject.Find("TimeText").GetComponent<Text>();
         scoreText = GameObject.Find("ScoreText").GetComponent<Text>();
-        healthSlider = GameObject.Find("Health Slider").GetComponent<Slider>();
-        Debug.Log(healthSlider.value);
+        healthSlider = GameObject.Find("Health Slider").GetComponent<Slider>();        
 
         //Load all kana from text file in Assets folder
         LoadKana();
@@ -92,10 +91,63 @@ public class GameManager : MonoBehaviour {
     {
         GameObject[] discs = new GameObject[] { maroonDisc, tealDisc, purpleDisc };
         int discToSpawn = Random.Range(0, discs.Length);
-        float discX = Random.Range(-8.5f, 8.5f);    //X-Coordinates on screen discs can spawn between
-        float discY = Random.Range(-3.8f, 1);   //Y-Coordinates on screen discs can spawn between
+        Vector3 discSpawnLocation = GetDiscSpawnLocation();
 
-        Instantiate(discs[discToSpawn], new Vector3(discX, discY, 1), Quaternion.identity);
+        //If the returned Vector3 is -99, -99, it means there's too many discs on screen, and the function shouldn't spawn another
+        if (discSpawnLocation.x == -99 && discSpawnLocation.y == -99)
+            return;
+
+        //Instantiate(discs[discToSpawn], new Vector3(discX, discY, 1), Quaternion.identity);
+        Instantiate(discs[discToSpawn], GetDiscSpawnLocation(), Quaternion.identity);
+    }
+
+    //Finds a suitable location for discs to spawn to avoid overlapping
+    private Vector3 GetDiscSpawnLocation()
+    {
+        //Get the current discs on screen and store them in a List<>
+        var currentDiscs = GameObject.FindGameObjectsWithTag("Discs");
+
+        //If there are 3 discs on screen, return a dummy Vector3 to tell SpawnDiscs() not to spawn
+        //Vector3 is non-nullable, hence the strange position
+        if (currentDiscs.Count() >= 3)
+            return new Vector3(-99, -99, 1);
+
+        //Creates a random point to spawn
+        var randomSpawnPoint = new Vector3(Random.Range(-8.5f, 8.5f), Random.Range(-3.8f, 1), 1);
+        
+        //If there are no discs on screen, return the random point    
+        if (currentDiscs.Count() == 0)
+            return randomSpawnPoint;
+
+        List<Vector3> discLocations = new List<Vector3>();
+
+        //Get every disc's position for easy access later
+        foreach (var d in currentDiscs)
+            discLocations.Add(d.transform.position);
+
+        /*
+         * Loop to ensure there is no disc overlap
+         * Calculates the Vector distance between the spawn point and the current discs
+         * If the distance is less than 3, it will generate a new point
+         * It must 'clear' all on-screen discs sequentially in order to work as the spawn point
+         * This is to avoid redundant overlap
+         */
+        int discsCleared;
+        do
+        {
+            discsCleared = 0;
+            foreach (var l in discLocations)
+            {
+                if (Vector3.Distance(randomSpawnPoint, l) < 3)
+                {
+                    randomSpawnPoint = new Vector3(Random.Range(-8.5f, 8.5f), Random.Range(-3.8f, 1), 1);
+                }
+                else
+                    discsCleared++;
+            }
+        } while (discsCleared != discLocations.Count());
+
+        return randomSpawnPoint;
     }
 
     //Method decrements time remaining in game
@@ -116,23 +168,23 @@ public class GameManager : MonoBehaviour {
         scoreText.text = "Score: " + currentScore;
     }
 
+
+    //Adjusts health slider UI Element by the amount indicated through the parameter
     private void HealthManager(float healthChange)
     {
         healthSlider.value += healthChange;
-        Debug.Log(healthSlider.value);
     }
 
+    //Examines the string of the destroyed disc against kana<string, string> to see if the destroyed disc was the correct one
     public void CheckDestroyedDisc(string discText)
     {
-        if(kana[gameText.text] == discText)
-        {
-            Debug.Log("you good");
+        if(kana[gameText.text] == discText) //If the destroyed disc was the correct one, add 1000 points and change the disc to search for
+        {           
             ScoreManager(1000);
             PopulateGameText();
         }
-        else
+        else    //If the disc destroyed was the wrong one, subtract 10 health
         {
-            Debug.Log("you bad");
             HealthManager(-10f);
         }
            
