@@ -57,6 +57,7 @@ public class SpawnManager : MonoBehaviour {
          * This is to avoid redundant overlap
          */
         int discsCleared;
+        int attempts = 0;
         do
         {
             discsCleared = 0;
@@ -69,7 +70,14 @@ public class SpawnManager : MonoBehaviour {
                 else
                     discsCleared++;
             }
-        } while (discsCleared != discLocations.Count());
+
+            attempts++;
+
+        } while (discsCleared != discLocations.Count() && attempts < 30);
+
+        //If the game tried to find a point 30 times without success, do not spawn a disc this turn
+        if(attempts >= 30)
+            return new Vector3(-99, -99, 1);
 
         return randomSpawnPoint;
     }
