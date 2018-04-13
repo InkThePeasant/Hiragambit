@@ -7,7 +7,7 @@ TagManager:
   - UI
   - Discs
   - Game Manager
-  - Game Over
+  - Game Over UI
   layers:
   - Default
   - TransparentFX

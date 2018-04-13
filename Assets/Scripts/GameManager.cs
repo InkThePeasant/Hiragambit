@@ -19,15 +19,15 @@ public class GameManager : MonoBehaviour {
     public Text timeText;
     public Text scoreText;
     public Slider healthSlider;
-    public GameObject gameOverImage;
     
     //Object to manage the spawning of discs
     private SpawnManager spawnManager;
+    private GameOverController gameOverController;
     private float discSpawnDelay = 3f;  //delay between repeated disc spawns
 
     public Dictionary<string, string> kana; //DS storing KvP of kana and romaji pairings
     private int currentScore = 0;   //Score during the game, initialized at 0
-
+    [HideInInspector] public bool gameOver = false;
 
 
     //Initializing GameManager
@@ -39,6 +39,7 @@ public class GameManager : MonoBehaviour {
             Destroy(gameObject);
 
         spawnManager = GetComponent<SpawnManager>();
+        gameOverController = GetComponent<GameOverController>();
     }
 
     // Use this for initialization
@@ -48,9 +49,6 @@ public class GameManager : MonoBehaviour {
         timeText = GameObject.Find("TimeText").GetComponent<Text>();
         scoreText = GameObject.Find("ScoreText").GetComponent<Text>();
         healthSlider = GameObject.Find("Health Slider").GetComponent<Slider>();
-        gameOverImage = GameObject.Find("GameOverImage");
-
-        gameOverImage.SetActive(false);
 
         //Load all kana from text file in Assets folder
         LoadKana();
@@ -61,7 +59,7 @@ public class GameManager : MonoBehaviour {
         PopulateGameText();
 
         //Updates UI Time Text field, decrementing the seconds
-        StartCoroutine(TimeManager(99));
+        StartCoroutine(TimeManager(10));
 	}
 	
 	// Update is called once per frame
@@ -108,6 +106,7 @@ public class GameManager : MonoBehaviour {
             yield return new WaitForSeconds(1f);
         }
 
+        gameOver = true;
         GameOver();
     }
 
@@ -124,6 +123,12 @@ public class GameManager : MonoBehaviour {
     private void HealthManager(float healthChange)
     {
         healthSlider.value += healthChange;
+
+        if(healthSlider.value == 0)
+        {
+            gameOver = true;
+            GameOver();
+        }
     }
 
     //Examines the string of the destroyed disc against kana<string, string> to see if the destroyed disc was the correct one
@@ -142,8 +147,10 @@ public class GameManager : MonoBehaviour {
     }
 
     private void GameOver()
-    {        
-        gameOverImage.SetActive(true);
+    {
+        Debug.Log("Game Over");
+        CancelInvoke();
+        gameOverController.GameOver();
     }
 
 }

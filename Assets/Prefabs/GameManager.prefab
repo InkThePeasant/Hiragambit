@@ -21,6 +21,7 @@ GameObject:
   - component: {fileID: 4995553215862242}
   - component: {fileID: 114671309358358946}
   - component: {fileID: 114228952979323466}
+  - component: {fileID: 114469446489578338}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Game Manager
@@ -55,6 +56,17 @@ MonoBehaviour:
   maroonDisc: {fileID: 1913904121071022, guid: 76536495f70ebe34d9ef2ab83499d409, type: 2}
   tealDisc: {fileID: 1777907456448690, guid: 9ed3793e0724df14a9bbd97691af450b, type: 2}
   purpleDisc: {fileID: 1105013893619212, guid: 118be80cfb8f2e24facb90acd4cc8771, type: 2}
+--- !u!114 &114469446489578338
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1503270178329458}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6517a9c750375ef41961a52b60ec8285, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114671309358358946
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -66,4 +78,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d7198370de94411428ac5d5366fe9bed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gameText: {fileID: 0}
   gameTextKey: 0
+  timeText: {fileID: 0}
+  scoreText: {fileID: 0}
+  healthSlider: {fileID: 0}
+  gameOverImage: {fileID: 0}

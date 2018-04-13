@@ -35,7 +35,10 @@ public class Disc : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-           
+        if (GameManager.instance.gameOver)
+        {            
+            animator.SetTrigger("gameEnd");
+        }
     }
 
     //Method that runs when user clicks within Disc's CircleCollider2D
