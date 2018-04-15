@@ -7,26 +7,28 @@ public class GameOverController : MonoBehaviour {
 
     public GameObject gameOverGroup;
     private Image blurPanel;
+    private Text gameOverScore;
 
 	// Use this for initialization
-	void Start () {
+	void Awake () {
         gameOverGroup = GameObject.Find("Game Over");
         blurPanel = GameObject.Find("BlurPanel").GetComponent<Image>();
+        gameOverScore = GameObject.Find("GameOverScoreText").GetComponent<Text>();
 
-        gameOverGroup.SetActive(false);        
-
+        DisableGameOverUI();        
     }
-	
-	// Update is called once per frame
-	void Update () {
 
-        
-	}
+    //In separate method to allow GameManager to disable UI during game initialization
+    public void DisableGameOverUI()
+    {       
+        gameOverGroup.SetActive(false);
+    }
 
     //Displays Game Over screen when conditions are met
     public void GameOver()
     {
         gameOverGroup.SetActive(true);
+        gameOverScore.text = "Final Score: " + GameManager.instance.currentScore;
         StartCoroutine(FadeBlurIn());
         StartCoroutine(FadeInUI());
     }
@@ -34,7 +36,7 @@ public class GameOverController : MonoBehaviour {
     //Steadily increase the blur of the BlurPanel, obfuscating the screen
     IEnumerator FadeBlurIn()
     {
-        for (double f = 0; f <= 7; f += .05)
+        for (double f = 0; f <= 7; f += .10)
         {
             blurPanel.material.SetFloat("_Radius", (float)f);
             Debug.Log("Blur is: " + f);

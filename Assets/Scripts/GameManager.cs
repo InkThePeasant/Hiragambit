@@ -26,7 +26,7 @@ public class GameManager : MonoBehaviour {
     private float discSpawnDelay = 3f;  //delay between repeated disc spawns
 
     public Dictionary<string, string> kana; //DS storing KvP of kana and romaji pairings
-    private int currentScore = 0;   //Score during the game, initialized at 0
+    [HideInInspector]public int currentScore;   //Score during the game, initialized at 0
     [HideInInspector] public bool gameOver = false;
 
 
@@ -38,29 +38,50 @@ public class GameManager : MonoBehaviour {
         else if (instance != this)
             Destroy(gameObject);
 
+        //Getting controllers for game aspects
         spawnManager = GetComponent<SpawnManager>();
         gameOverController = GetComponent<GameOverController>();
-    }
 
-    // Use this for initialization
-    void Start ()
-    {       
+        //Getting Game Objects
         gameText = GameObject.Find("GameText").GetComponent<Text>();
         timeText = GameObject.Find("TimeText").GetComponent<Text>();
         scoreText = GameObject.Find("ScoreText").GetComponent<Text>();
         healthSlider = GameObject.Find("Health Slider").GetComponent<Slider>();
+    }
+
+    // Use this for initialization
+    void Start ()
+    {
+        InitGame();
+	}
+
+    public void InitGame()
+    {
+        //Disables Game Over UI
+        gameOverController.DisableGameOverUI();
+
+        //Setting default score and Game Over state
+        currentScore = 0;
+        gameOver = false;
 
         //Load all kana from text file in Assets folder
-        LoadKana();
+        if(kana == null)
+            LoadKana();
 
+        //Starts Disc Spawning method, invokes it every 3 seconds
         InvokeRepeating("SpawnDiscs", 3f, discSpawnDelay);
 
         //Gets intial starting kana players must search for
         PopulateGameText();
 
+        //Initialze UI elements
+        scoreText.text = "Score: 0";
+        healthSlider.value = 100;
+
         //Updates UI Time Text field, decrementing the seconds
-        StartCoroutine(TimeManager(10));
-	}
+        StartCoroutine(TimeManager(99));
+    }
+
 	
 	// Update is called once per frame
 	void Update () {
@@ -148,8 +169,8 @@ public class GameManager : MonoBehaviour {
 
     private void GameOver()
     {
-        Debug.Log("Game Over");
         CancelInvoke();
+        StopAllCoroutines();
         gameOverController.GameOver();
     }
 

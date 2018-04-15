@@ -37,6 +37,7 @@ public class Disc : MonoBehaviour
     {
         if (GameManager.instance.gameOver)
         {            
+            animator.SetTrigger("discDestroy");
             animator.SetTrigger("gameEnd");
         }
     }
