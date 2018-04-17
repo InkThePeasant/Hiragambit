@@ -13,7 +13,7 @@ using UnityEngine.UI;
 public class Disc : MonoBehaviour
 {
 
-    public float fadeOutTime = 10f; //Total time disc remains on screen before fading out
+    public float fadeOutTime = 7f; //Total time disc remains on screen before fading out
 
     private SpriteRenderer sprite;
     private Animator animator;

@@ -23,7 +23,8 @@ public class GameManager : MonoBehaviour {
     //Object to manage the spawning of discs
     private SpawnManager spawnManager;
     private GameOverController gameOverController;
-    private float discSpawnDelay = 3f;  //delay between repeated disc spawns
+    public float discSpawnDelay = 1.5f;  //delay between repeated disc spawns
+    public int gameTime = 99; //The starting time on the clock/length of the game
 
     public Dictionary<string, string> kana; //DS storing KvP of kana and romaji pairings
     [HideInInspector]public int currentScore;   //Score during the game, initialized at 0
@@ -79,7 +80,7 @@ public class GameManager : MonoBehaviour {
         healthSlider.value = 100;
 
         //Updates UI Time Text field, decrementing the seconds
-        StartCoroutine(TimeManager(99));
+        StartCoroutine(TimeManager(gameTime));
     }
 
 	
@@ -106,7 +107,7 @@ public class GameManager : MonoBehaviour {
     //Initializes and changes the Game Text UI element, where the current kana user must search for is displayed
     public void PopulateGameText()
     {
-        var randKana = Random.Range(0, kana.Count);
+        var randKana = Random.Range(0, kana.Count);        
 
         gameText.text = kana.ElementAt(randKana).Key;
         gameTextKey = randKana;

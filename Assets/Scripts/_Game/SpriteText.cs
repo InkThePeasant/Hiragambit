@@ -10,7 +10,7 @@ using UnityEngine;
  */
 
 public class SpriteText : MonoBehaviour {
-    public float fadeOutTime = 10f;
+    public float fadeOutTime = 7f;
 
     public MeshRenderer mesh;
 
@@ -46,12 +46,22 @@ public class SpriteText : MonoBehaviour {
         var currentKana = GameManager.instance.gameTextKey;
         //Gets dictionary from GameManager, starting 3 elements back from the correct kana
         //This is so text display on discs is within range of the correct kana on a hiragana chart
-        var kanaRange = GameManager.instance.kana.Skip(currentKana - 3);
+        var kanaRange = GameManager.instance.kana.Skip(currentKana - 1);
 
-        int kanaToChoose = Random.Range(0, 5);  //Finds kana within 5 placements of the current correct one
+        int kanaToChoose = Random.Range(0, 3);  //Finds kana within 3 placements of the current correct one
 
         //Returns a range of 5 elements from already trimmed Dictionary, selecting a random one from within that range
-        return kanaRange.Take(5).ElementAt(kanaToChoose).Value;
+        //If there are not 5 elements in list, returns the correct kana (Aka at the end of the list
+        try
+        {
+            return kanaRange.Take(5).ElementAt(kanaToChoose).Value;
+        }
+        catch(System.Exception ex)
+        {
+            //Returns the correct kana if at the end of the list
+            Debug.Log(ex.StackTrace);
+            return kanaRange.ElementAt(3).Value;
+        }
     }
 
     //Coroutine fades in GameObject by steadily increasing sprite's alpha

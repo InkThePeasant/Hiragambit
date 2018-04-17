@@ -8,6 +8,8 @@ TagManager:
   - Discs
   - Game Manager
   - Game Over UI
+  - Main Menu UI
+  - Menu Manager
   layers:
   - Default
   - TransparentFX
