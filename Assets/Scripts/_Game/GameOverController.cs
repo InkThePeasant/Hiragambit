@@ -3,6 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+/**************************************
+ * 
+ * - Class controls game over functionality
+ * - Works concurrently with GameManger to allow for punctual method calls
+ * - Handles Game Over UI functionality, including enabling and disabling
+ * 
+ ***************************************/ 
+
 public class GameOverController : MonoBehaviour {
 
     public GameObject gameOverGroup;
@@ -39,7 +47,6 @@ public class GameOverController : MonoBehaviour {
         for (double f = 0; f <= 7; f += .10)
         {
             blurPanel.material.SetFloat("_Radius", (float)f);
-            Debug.Log("Blur is: " + f);
             yield return null;
         }
     }

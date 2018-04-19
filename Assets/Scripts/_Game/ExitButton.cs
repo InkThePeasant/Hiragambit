@@ -5,6 +5,9 @@ using UnityEngine.UI;
 
 public class ExitButton : MonoBehaviour {
 
+    //Method for Exit Button in game
+    //Quits the Unity Editor Play mode if testing in that environment
+    //Otherwise closes the application
     public void ClickExit()
     {
         Debug.Log("clicked");

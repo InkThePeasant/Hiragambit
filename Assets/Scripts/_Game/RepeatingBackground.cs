@@ -2,6 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/***************************************
+ * 
+ * Handles repositioning of BG elements to ensure smooth scrolling
+ * 
+ ***************************************/
+
 public class RepeatingBackground : MonoBehaviour {
 
     private BoxCollider2D bgCollider;
@@ -18,6 +24,7 @@ public class RepeatingBackground : MonoBehaviour {
 	// Update is called once per frame
 	void Update ()
     {
+        //Repositions BG if it has scrolled far enough
         if (rect.anchoredPosition.x < -bgHorizontalLength)
         {
             RepositionBG();

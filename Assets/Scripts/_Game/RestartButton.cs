@@ -5,10 +5,9 @@ using UnityEngine.UI;
 
 public class RestartButton : MonoBehaviour {
 
+    //Method reinitializes game for fast restart
     public void RestartClick()
-    {
-        Debug.Log("clicked");
-        
+    {        
         GameManager.instance.InitGame();
     }
 	

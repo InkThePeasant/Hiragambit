@@ -34,11 +34,6 @@ public class SpriteText : MonoBehaviour {
         StartCoroutine(FadeOut(fadeOutTime));
 
     }
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
 
     private string getDiscText()
     {

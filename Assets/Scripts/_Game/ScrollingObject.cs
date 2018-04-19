@@ -2,6 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/***************************************
+ * 
+ * Controls speed of moving background by applying movement vector to BG elements
+ * 
+ ***************************************/ 
+
 public class ScrollingObject : MonoBehaviour {
 
     private Rigidbody2D rb2d;
@@ -14,8 +20,4 @@ public class ScrollingObject : MonoBehaviour {
         rb2d.velocity = new Vector2(scrollSpeed, 0);
 	}
 	
-	// Update is called once per frame
-	void Update () {
-		
-	}
 }

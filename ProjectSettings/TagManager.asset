@@ -10,6 +10,7 @@ TagManager:
   - Game Over UI
   - Main Menu UI
   - Menu Manager
+  - Settings Button
   layers:
   - Default
   - TransparentFX

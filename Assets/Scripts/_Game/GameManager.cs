@@ -1,12 +1,24 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-
-using System.IO;
 using System.Linq;
 using System.Text;
 
+//Unity Librariess
 using UnityEngine;
 using UnityEngine.UI;
+
+/******************
+ * 
+ * Game Manager
+ * 
+ * - Class controls much of the overarching game logic
+ * - Updates and controls UI elements
+ * - Loads kana data from text files for use by this and other classes
+ * - Manages time between disc spawns
+ * - Handles triggering of game over states
+ * - Uses Singleton pattern so other game elements can access some of the logic
+ * 
+ *******************/
 
 
 public class GameManager : MonoBehaviour {
@@ -26,6 +38,7 @@ public class GameManager : MonoBehaviour {
     public float discSpawnDelay = 1.5f;  //delay between repeated disc spawns
     public int gameTime = 99; //The starting time on the clock/length of the game
 
+    //Non-GameObject vars for use by primarily Game Manager
     public Dictionary<string, string> kana; //DS storing KvP of kana and romaji pairings
     [HideInInspector]public int currentScore;   //Score during the game, initialized at 0
     [HideInInspector] public bool gameOver = false;
@@ -53,6 +66,7 @@ public class GameManager : MonoBehaviour {
     // Use this for initialization
     void Start ()
     {
+        //Instantiates game after collecting GameObjects
         InitGame();
 	}
 
@@ -83,17 +97,13 @@ public class GameManager : MonoBehaviour {
         StartCoroutine(TimeManager(gameTime));
     }
 
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
-
     //Used to load kana Dictionary<> with KvP's from text file at the game's start
     private void LoadKana()
     {
         //Loads text file, and splits each line into a string array
-        TextAsset textFile = Resources.Load("KanaText/ENGtoHiragana") as TextAsset;
+        string textPath = MenuManager.instance.kanaToLoad;
+
+        TextAsset textFile = Resources.Load(textPath) as TextAsset;
         string[] array = textFile.text.Split('\n');
 
         //Groups lines into key-value pairs
