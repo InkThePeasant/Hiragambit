@@ -34,11 +34,11 @@ public class GameManager : MonoBehaviour {
     
     //Object to manage the spawning of discs
     private SpawnManager spawnManager;
-    private GameOverController gameOverController;
     public float discSpawnDelay = 1.5f;  //delay between repeated disc spawns
-    public int gameTime = 99; //The starting time on the clock/length of the game
 
     //Non-GameObject vars for use by primarily Game Manager
+    private GameOverController gameOverController;
+    public int gameTime = 99; //The starting time on the clock/length of the game
     public Dictionary<string, string> kana; //DS storing KvP of kana and romaji pairings
     [HideInInspector]public int currentScore;   //Score during the game, initialized at 0
     [HideInInspector] public bool gameOver = false;
