@@ -10,8 +10,6 @@ public class ExitButton : MonoBehaviour {
     //Otherwise closes the application
     public void ClickExit()
     {
-        Debug.Log("clicked");
-
         #if UNITY_EDITOR
                 UnityEditor.EditorApplication.isPlaying = false;
         #else

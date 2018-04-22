@@ -26,7 +26,7 @@ public class SpriteText : MonoBehaviour {
         var spriteTransform = parent.transform;
         var text = GetComponent<TextMesh>();
         var pos = spriteTransform.position;
-        text.text = string.Format(getDiscText(), pos.x, pos.y);
+        text.text = string.Format(GetDiscText(), pos.x, pos.y);
 
         mesh = GetComponent<MeshRenderer>();
 
@@ -35,7 +35,7 @@ public class SpriteText : MonoBehaviour {
 
     }
 
-    private string getDiscText()
+    private string GetDiscText()
     {
         //Getting location of current, correct kana user looks for
         var currentKana = GameManager.instance.gameTextKey;

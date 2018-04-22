@@ -21,8 +21,7 @@ public class MenuButtonController : MonoBehaviour {
     }
 
     public void SettingsClick()
-    {
-        Debug.Log("Clicked");
+    {     
         StartCoroutine(MenuManager.instance.FadeGameSettings());
     }
 
