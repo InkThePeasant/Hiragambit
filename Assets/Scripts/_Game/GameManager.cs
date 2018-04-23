@@ -117,13 +117,10 @@ public class GameManager : MonoBehaviour {
     //Initializes and changes the Game Text UI element, where the current kana user must search for is displayed
     public void PopulateGameText()
     {
-        //var randKana = Random.Range(0, kana.Count);        
+        var randKana = Random.Range(0, kana.Count);
 
-        //gameText.text = kana.ElementAt(randKana).Key;
-        //gameTextKey = randKana;
-
-        gameText.text = kana.ElementAt(kana.Count - 1).Key;
-        gameTextKey = kana.Count - 1;
+        gameText.text = kana.ElementAt(randKana).Key;
+        gameTextKey = randKana;
     }
 
     //Intermitantly spawn disc prefabs at random locations on screen
