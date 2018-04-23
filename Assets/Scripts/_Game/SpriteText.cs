@@ -46,7 +46,7 @@ public class SpriteText : MonoBehaviour {
         int kanaToChoose = Random.Range(0, 3);  //Finds kana within 3 placements of the current correct one
 
         //Returns a range of 5 elements from already trimmed Dictionary, selecting a random one from within that range
-        //If there are not 5 elements in list, returns the correct kana (Aka at the end of the list
+        //If there are not 5 elements in list, returns the correct kana
         try
         {
             return kanaRange.Take(5).ElementAt(kanaToChoose).Value;
@@ -55,7 +55,9 @@ public class SpriteText : MonoBehaviour {
         {
             //Returns the correct kana if at the end of the list
             Debug.Log(ex.StackTrace);
-            return kanaRange.ElementAt(3).Value;
+            return GameManager.instance.kana.ElementAt(GameManager.instance.gameTextKey).Value;
+
+            //return kanaRange.ElementAt(3).Value;
         }
     }
 

@@ -66,7 +66,6 @@ public class MenuManager : MonoBehaviour {
         for (double f = 0; f <= 1; f += .05)
         {
             canvasGroup.alpha = (float)f;
-            Debug.Log("alpha: " + canvasGroup.alpha);
             yield return null;
         }
     }
